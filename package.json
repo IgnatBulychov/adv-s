@@ -1,0 +1,28 @@
+{
+  "name": "adv",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "pro": "node index.js",
+    "dev": "pm2 start index.js --watch --no-daemon",
+    "stop": "pm2 stop index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@koa/cors": "^3.1.0",
+    "bcrypt-nodejs": "0.0.3",
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^0.95.11",
+    "koa": "^2.13.1",
+    "koa-body": "^4.2.0",
+    "koa-bodyparser": "^4.3.0",
+    "koa-router": "^10.1.1",
+    "nanoid": "^3.1.25",
+    "pg": "^8.7.1",
+    "sqlite3": "^5.0.2"
+  }
+}
