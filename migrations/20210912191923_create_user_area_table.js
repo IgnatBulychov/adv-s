@@ -2,6 +2,7 @@
 exports.up = function(knex) {
   return knex.schema
   .createTable('user_area', function (table) {
+    table.string('id').notNullable().primary();
     table.string('userId', 255).notNullable();
     table.string('areaId', 255).notNullable();
     table.timestamp('createdAt').defaultTo(knex.fn.now());

@@ -1,6 +1,6 @@
-import { db } from '../../db/db';
+const db = require('../../db/db');
 
-export default async (ctx) => {
+module.exports = async (ctx) => {
 
   let networks = await db(['id', 'title', 'poster'])
   .from('networks')

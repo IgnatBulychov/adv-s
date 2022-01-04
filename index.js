@@ -2,11 +2,12 @@ const Koa = require('koa');
 const Router = require('koa-router');
 const cors = require('@koa/cors');
 const bodyParser = require('koa-bodyparser');
+var serve = require('koa-static');
 
 const errorHandler = require('./middleware/errorHandler');
 const authenticated = require('./middleware/authenticated');
 
-const login = require('./routes/auth/login').default;
+const login = require('./routes/auth/login');
 const register = require('./routes/auth/register');
 
 const getAreas = require('./routes/areas/get');
@@ -29,6 +30,7 @@ router.get('/networks', authenticated, getNetworks);
 
 app.use(errorHandler);
 app.use(cors());
+app.use(serve('./public'));
 
 app
   .use(router.routes())
