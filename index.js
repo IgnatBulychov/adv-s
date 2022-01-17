@@ -40,7 +40,7 @@ router.post('/areas/:areaId/services', authenticated, bodyParser(), createServic
 router.put('/areas/:areaId/:serviceId', authenticated, authorizateArea, updateService);
 router.delete('/areas/:areaId/:serviceId', authenticated, authorizateArea, deleteService);
 
-router.get('/networks', authenticated, getNetworks);
+router.get('/networks', getNetworks);
 
 app.use(errorHandler);
 app.use(cors());
