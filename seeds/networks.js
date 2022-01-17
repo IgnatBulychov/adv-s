@@ -9,42 +9,52 @@ exports.seed = function(knex, Promise) {
         {
           id: getId(),
           title: 'Instagram',
-          poster: 'instagram'
+          poster: '/storage/networks/avatars/instagram.png'
         },
         {
           id: getId(),
           title: 'Youtube',
-          poster: 'youtube'
+          poster: '/storage/networks/avatars/youtube.png'
         },
         {
           id: getId(),
           title: 'Telegram',
-          poster: 'telegram'
+          poster: '/storage/networks/avatars/telegram.png'
         },
         {
           id: getId(),
           title: 'WhatsApp',
-          poster: 'whatsapp'
+          poster: '/storage/networks/avatars/whatsapp.png'
         },
         {
           id: getId(),
           title: 'Вконтакте',
-          poster: 'vk'
+          poster: '/storage/networks/avatars/vk.png'
+        },
+        {
+          id: getId(),
+          title: 'Одноклассники',
+          poster: '/storage/networks/avatars/ok.png'
         },
         {
           id: getId(),
           title: 'Tik-Tok',
-          poster: 'tiktok'
+          poster: '/storage/networks/avatars/tiktok.png'
+        },
+        {
+          id: getId(),
+          title: 'Medium',
+          poster: '/storage/networks/avatars/medium.png'
         },
         {
           id: getId(),
           title: 'Pinterest',
-          poster: 'pinterest'
+          poster: '/storage/networks/avatars/pinterest.png'
         },
         {
           id: getId(),
-          title: 'Email рассылка',
-          poster: 'email'
+          title: 'Сайт с подписчиками',
+          poster: '/storage/networks/avatars/email.png'
         },    
       ]);
     });
