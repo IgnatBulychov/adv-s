@@ -3,7 +3,7 @@ const fs = require('fs');
 const getId = require('../../utilities/getId');
 
 module.exports = async (ctx) => {
-  const { title, description, networkId, poster, services, numberOfFollowers } = ctx.request.body;
+  const { title, description, networkId, poster, categories, numberOfFollowers } = ctx.request.body; //services
 
   if (!title) ctx.throw(422, 'Area title required');
   if (!networkId) ctx.throw(422, 'networkId required');
@@ -21,19 +21,12 @@ module.exports = async (ctx) => {
     description: description ? description : null,
     poster: poster ? `/storage/areas/avatars/${areaId}.png` : null,
     numberOfFollowers: numberOfFollowers ? numberOfFollowers : null,
-    networkId: networkId
+    networkId: networkId,
+    userId:  ctx.request.jwtPayload.data.sub
   }
 
   await db('areas').insert(area)
-
-  let userAreaId = getId()
-
-  await db('user_area').insert({
-    id: userAreaId,
-    userId: ctx.request.jwtPayload.data.sub,
-    areaId: areaId
-  })
-
+/*
   for (const service of services) {
     await db('services').insert({
       id: getId(),
@@ -41,6 +34,16 @@ module.exports = async (ctx) => {
       price: service.price,
       title: service.title,
       description: service.description
+    })
+  }
+*/
+  console.log(categories)
+
+  for (const category of categories) {
+    await db('category_area').insert({
+      id: getId(),
+      categoryId: category,
+      areaId: areaId
     })
   }
   

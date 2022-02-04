@@ -1,22 +1,15 @@
 const db = require('../../db/db');
 
 module.exports = async (ctx) => {
-
-  let pivot = await db.select(['areaId'])
-  .from('user_area')
+  
+  let areas = await db.select(['id', 'title', 'description', 'poster', 'numberOfFollowers', 'networkId'])
+  .from('areas')
   .where({ userId: ctx.request.jwtPayload.data.sub })
-
-  let areas = []
-
-  for (const area of pivot) {
-    let res = await db.select(['id', 'title', 'description', 'poster', 'numberOfFollowers', 'networkId'])
-    .from('areas')
-    .where({ id: area.areaId })
-    areas.push({
-      ...res[0],
-      poster: 'http://' + ctx.request.header.host + res[0].poster
-    })
-  } 
+  
+  areas.map(area=>{
+    area.poster = 'http://' + ctx.request.header.host + area.poster
+    return area
+  })
 
   await Promise.all(areas.map(async (value) => {
     let resNetworks = await db.select(['id', 'title', 'poster'])
@@ -30,13 +23,13 @@ module.exports = async (ctx) => {
    
     value.network = resNetworks[0]
 
-    let resServices = await db.select(['id', 'title', 'description', 'price'])
+   /* let resServices = await db.select(['id', 'title', 'description', 'price'])
     .from('services')
     .where({ areaId: value.id })
 
     resServices.map(service=>{service.areaId = value.id})
 
-    value.services = resServices
+    value.services = resServices*/
 
     return value    
   }));

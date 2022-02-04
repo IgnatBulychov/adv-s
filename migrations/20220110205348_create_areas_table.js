@@ -7,7 +7,9 @@ exports.up = function(knex) {
       table.string('description', 2048);
       table.string('poster', 1024);    
       table.bigint('numberOfFollowers', 15);
+      table.bigint('cpc', 15);      
       table.string('networkId', 32).notNullable();
+      table.string('userId', 32).notNullable();
       table.timestamp('createdAt').defaultTo(knex.fn.now());
       table.timestamp('updatedAt').defaultTo(knex.fn.now());
     })

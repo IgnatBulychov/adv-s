@@ -1,5 +1,3 @@
-const getId = require('../utilities/getId');
-
 exports.seed = function(knex, Promise) {
     // Deletes ALL existing entries
     return knex('networks').del()
@@ -7,53 +5,53 @@ exports.seed = function(knex, Promise) {
       // Inserts seed entries
       return knex('networks').insert([        
         {
-          id: getId(),
+          id: 'test1',
           title: 'Instagram',
           poster: '/storage/networks/avatars/instagram.png'
         },
         {
-          id: getId(),
+          id: 'test2',
           title: 'Youtube',
           poster: '/storage/networks/avatars/youtube.png'
         },
         {
-          id: getId(),
+          id: 'test3',
           title: 'Telegram',
           poster: '/storage/networks/avatars/telegram.png'
         },
         {
-          id: getId(),
+          id: 'test4',
           title: 'WhatsApp',
           poster: '/storage/networks/avatars/whatsapp.png'
         },
         {
-          id: getId(),
+          id: 'test5',
           title: 'Вконтакте',
           poster: '/storage/networks/avatars/vk.png'
         },
         {
-          id: getId(),
+          id: 'test6',
           title: 'Одноклассники',
           poster: '/storage/networks/avatars/ok.png'
         },
         {
-          id: getId(),
+          id: 'test7',
           title: 'Tik-Tok',
           poster: '/storage/networks/avatars/tiktok.png'
         },
         {
-          id: getId(),
+          id: 'test8',
           title: 'Medium',
           poster: '/storage/networks/avatars/medium.png'
         },
         {
-          id: getId(),
+          id: 'test9',
           title: 'Pinterest',
           poster: '/storage/networks/avatars/pinterest.png'
         },
         {
-          id: getId(),
-          title: 'Сайт с подписчиками',
+          id: 'test10',
+          title: 'E-mail рассылка',
           poster: '/storage/networks/avatars/email.png'
         },    
       ]);

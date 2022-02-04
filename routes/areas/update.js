@@ -10,6 +10,8 @@ module.exports = async (ctx) => {
 
   let areaId = ctx.params.areaId
 
+  console.log(isPosterChanges)
+
   if (poster && isPosterChanges) {
     fs.unlink(`public/storage/areas/avatars/${areaId}.png}`, function(err){
       fs.writeFile(`public/storage/areas/avatars/${areaId}.png`, poster.replace(/^data:image\/\w+;base64,/, ''), {encoding: 'base64'}, function(err){
@@ -17,19 +19,22 @@ module.exports = async (ctx) => {
     })
   }
 
-  console.log(areaId)
+  let changes = {
+    title: title,
+    description: description,
+    numberOfFollowers: numberOfFollowers ? numberOfFollowers : null,
+    networkId: networkId
+  }
+
+  if (poster && isPosterChanges) {    
+    changes.poster = `/storage/areas/avatars/${areaId}.png`
+  }
 
   let res = await db('areas')
   .where({ id: areaId })
-  .update({
-    title: title,
-    description: description,
-    poster: isPosterChanges && poster ? `/storage/areas/avatars/${areaId}.png` : poster,
-    numberOfFollowers: numberOfFollowers ? numberOfFollowers : null,
-    networkId: networkId
-  })
+  .update(changes)
 
-  console.log( res.status(!!u?200:404).json({success:!!u}))
+  
 
   ctx.body = 'success' 
 };

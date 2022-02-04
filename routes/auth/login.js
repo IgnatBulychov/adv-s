@@ -13,7 +13,9 @@ module.exports = async (ctx) => {
 
   const user = await db.first(['id', 'email', 'passwordHash'])
   .from('users')
-  .where({ email }); 
+  .where({ email });
+
+  if (!user) ctx.throw(422, 'Неверный логин или пароль');
 
   if (await bcrypt.compare(password, user.passwordHash)) {
     const payload = { sub: user.id };
@@ -32,7 +34,7 @@ module.exports = async (ctx) => {
     };
 
   } else {
-    ctx.throw(401, 'Incorrect username and/or password.');
+    ctx.throw(401, 'Неверный логин или пароль');
   }
 
 };

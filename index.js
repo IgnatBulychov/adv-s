@@ -12,6 +12,10 @@ const authorizateArea = require('./middleware/authorizateArea');
 const login = require('./routes/auth/login');
 const register = require('./routes/auth/register');
 
+const getProfile = require('./routes/profile/get');
+const updateProfile = require('./routes/profile/edit');
+const changeAvatar = require('./routes/profile/changeAvatar');
+
 const getAreas = require('./routes/areas/get');
 const findAreas = require('./routes/areas/find');
 const createArea = require('./routes/areas/create');
@@ -23,12 +27,18 @@ const updateService = require('./routes/services/update');
 const deleteService = require('./routes/services/delete');
 
 const getNetworks = require('./routes/networks/get');
+const getCategories = require('./routes/categories/get');
 
 const app = new Koa();
 const router = new Router();
 
 router.post('/login', bodyParser(), login);
 router.post('/register', bodyParser(), register);
+
+
+router.get('/profile', authenticated, getProfile);
+router.put('/profile', authenticated, updateProfile);
+router.put('/change-avatar', authenticated, changeAvatar);
 
 router.get('/areas', authenticated, getAreas);
 router.get('/areas/search', findAreas);
@@ -41,6 +51,7 @@ router.put('/areas/:areaId/:serviceId', authenticated, authorizateArea, updateSe
 router.delete('/areas/:areaId/:serviceId', authenticated, authorizateArea, deleteService);
 
 router.get('/networks', getNetworks);
+router.get('/categories', getCategories);
 
 app.use(errorHandler);
 app.use(cors());
