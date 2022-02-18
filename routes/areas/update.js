@@ -43,6 +43,9 @@ module.exports = async (ctx) => {
   .del()
   
 
+  console.log(categories)
+  console.log(areaId)
+
   for (const category of categories) {
     await db('category_area').insert({
       id: getId(),
