@@ -1,4 +1,5 @@
 const db = require('../../db/db');
+const fs = require('fs');
 
 module.exports = async (ctx) => {
   const { avatar } = ctx.request.body;
@@ -15,8 +16,8 @@ module.exports = async (ctx) => {
   let res = await db('users')
   .where({ id: userId })
   .update({
-    avatar: `/storage/areas/avatars/${areaId}.png`
+    avatar: `/storage/users/avatars/${userId}.png`
   })
 
-  ctx.body = 'success' 
+  ctx.body = { avatar: `http://${ctx.request.header.host}/storage/users/avatars/${userId}.png` }
 };

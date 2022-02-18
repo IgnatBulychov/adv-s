@@ -35,10 +35,9 @@ const router = new Router();
 router.post('/login', bodyParser(), login);
 router.post('/register', bodyParser(), register);
 
-
 router.get('/profile', authenticated, getProfile);
 router.put('/profile', authenticated, updateProfile);
-router.put('/change-avatar', authenticated, changeAvatar);
+router.put('/profile/change-avatar', authenticated, changeAvatar);
 
 router.get('/areas', authenticated, getAreas);
 router.get('/areas/search', findAreas);

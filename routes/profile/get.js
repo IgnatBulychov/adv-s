@@ -6,7 +6,7 @@ module.exports = async (ctx) => {
   .from('users')
   .where({ id: ctx.request.jwtPayload.data.sub })
   
-  user[0].poster = 'http://' + ctx.request.header.host + user[0].poster
+  user[0].avatar = 'http://' + ctx.request.header.host + user[0].avatar
  
   ctx.body = user[0]
 };

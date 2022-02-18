@@ -11,7 +11,7 @@ module.exports = async (ctx) => {
   if (!email) ctx.throw(422, 'Email required.');
   if (!password) ctx.throw(422, 'Password required.'); 
 
-  const user = await db.first(['id', 'email', 'passwordHash'])
+  const user = await db.first(['id', 'email', 'passwordHash', 'firstName', 'lastName', 'avatar'])
   .from('users')
   .where({ email });
 
@@ -28,7 +28,8 @@ module.exports = async (ctx) => {
 
     ctx.body = {
       user: {
-        ...user, 
+        ...user,
+        avatar: 'http://' + ctx.request.header.host + user.avatar,
         token: token 
       }
     };

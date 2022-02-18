@@ -2,7 +2,7 @@ const db = require('../../db/db');
 
 module.exports = async (ctx) => {
   
-  let areas = await db.select(['id', 'title', 'description', 'poster', 'numberOfFollowers', 'networkId'])
+  let areas = await db.select(['id', 'title', 'description', 'poster', 'numberOfFollowers', 'networkId', 'cpc'])
   .from('areas')
   .where({ userId: ctx.request.jwtPayload.data.sub })
   
@@ -22,6 +22,23 @@ module.exports = async (ctx) => {
     })
    
     value.network = resNetworks[0]
+
+    let resCategoriesPivot = await db.select(['categoryId'])
+    .from('category_area')
+    .where({ areaId: value.id })
+
+
+    let categories = []
+
+    for (const pivot of resCategoriesPivot) {
+      let category = await db.select(['id', 'title'])
+      .from('categories')
+      .where({ id: pivot.categoryId })
+
+      categories.push(category[0])
+    }
+   
+    value.categories = categories
 
    /* let resServices = await db.select(['id', 'title', 'description', 'price'])
     .from('services')

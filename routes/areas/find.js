@@ -16,24 +16,24 @@ module.exports = async (ctx) => {
   let res = null
 
   if (networksIds.length && categoriesIds.length) {
-    res = await db.select(['id', 'title', 'description', 'poster', 'numberOfFollowers', 'networkId'])
+    res = await db.select(['id', 'title', 'description', 'poster', 'numberOfFollowers', 'networkId', 'userId'])
     .from('areas')
     .whereIn('networkId', networksIds)
     .intersect(function() {
-      this.select(['id', 'title', 'description', 'poster', 'numberOfFollowers', 'networkId'])
+      this.select(['id', 'title', 'description', 'poster', 'numberOfFollowers', 'networkId', 'userId'])
       .from('areas')
       .whereIn('id', areaIds.map(el=>{return el.areaId}))
     })
   } else if (networksIds.length) {
-    res = await db.select(['id', 'title', 'description', 'poster', 'numberOfFollowers', 'networkId'])
+    res = await db.select(['id', 'title', 'description', 'poster', 'numberOfFollowers', 'networkId', 'userId'])
     .from('areas')
     .whereIn('networkId', networksIds)
   } else if (categoriesIds.length) {
-    res = await db.select(['id', 'title', 'description', 'poster', 'numberOfFollowers', 'networkId'])
+    res = await db.select(['id', 'title', 'description', 'poster', 'numberOfFollowers', 'networkId', 'userId'])
     .from('areas')
     .whereIn('id', areaIds.map(el=>{return el.areaId}))
   } else {
-    res = await db.select(['id', 'title', 'description', 'poster', 'numberOfFollowers', 'networkId'])
+    res = await db.select(['id', 'title', 'description', 'poster', 'numberOfFollowers', 'networkId', 'userId'])
     .from('areas')
   }
   
@@ -57,6 +57,29 @@ module.exports = async (ctx) => {
     })
    
     value.network = resNetworks[0]
+
+   /* let resServices = await db.select(['id', 'title', 'description', 'price'])
+    .from('services')
+    .where({ areaId: value.id })
+
+    resServices.map(service=>{service.areaId = value.id})
+
+    value.services = resServices*/
+
+    return value    
+  }));
+
+  await Promise.all(areas.map(async (value) => {
+    let resOwners = await db.select(['id', 'firstName', 'lastName', 'avatar'])
+    .from('users')
+    .where({ id: value.userId })
+
+    resOwners.map(el => {
+      el.avatar = 'http://' + ctx.request.header.host + el.avatar
+      return el
+    })
+   
+    value.owner = resOwners[0]
 
    /* let resServices = await db.select(['id', 'title', 'description', 'price'])
     .from('services')

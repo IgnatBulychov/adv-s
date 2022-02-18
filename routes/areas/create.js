@@ -3,10 +3,11 @@ const fs = require('fs');
 const getId = require('../../utilities/getId');
 
 module.exports = async (ctx) => {
-  const { title, description, networkId, poster, categories, numberOfFollowers } = ctx.request.body; //services
+  const { title, description, networkId, poster, categories, numberOfFollowers, cpc  } = ctx.request.body; //services
 
   if (!title) ctx.throw(422, 'Area title required');
   if (!networkId) ctx.throw(422, 'networkId required');
+  if (!cpc) ctx.throw(422, 'cpc required');
 
   let areaId = getId()
 
@@ -21,6 +22,7 @@ module.exports = async (ctx) => {
     description: description ? description : null,
     poster: poster ? `/storage/areas/avatars/${areaId}.png` : null,
     numberOfFollowers: numberOfFollowers ? numberOfFollowers : null,
+    cpc: cpc,
     networkId: networkId,
     userId:  ctx.request.jwtPayload.data.sub
   }

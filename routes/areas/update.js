@@ -1,8 +1,10 @@
 const db = require('../../db/db');
 const fs = require('fs');
 
+const getId = require('../../utilities/getId');
+
 module.exports = async (ctx) => {
-  const { title, description, networkId, poster, numberOfFollowers, isPosterChanges } = ctx.request.body;
+  const { title, description, networkId, poster, numberOfFollowers, isPosterChanges, cpc, categories } = ctx.request.body;
 
   if (!title) ctx.throw(422, 'Area title required');
   if (!networkId) ctx.throw(422, 'networkId required');
@@ -23,7 +25,8 @@ module.exports = async (ctx) => {
     title: title,
     description: description,
     numberOfFollowers: numberOfFollowers ? numberOfFollowers : null,
-    networkId: networkId
+    networkId: networkId,
+    cpc: cpc
   }
 
   if (poster && isPosterChanges) {    
@@ -33,6 +36,20 @@ module.exports = async (ctx) => {
   let res = await db('areas')
   .where({ id: areaId })
   .update(changes)
+
+
+  await db('category_area')
+  .where('areaId', areaId)
+  .del()
+  
+
+  for (const category of categories) {
+    await db('category_area').insert({
+      id: getId(),
+      categoryId: category,
+      areaId: areaId
+    })
+  }
 
   
 
