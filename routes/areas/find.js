@@ -16,24 +16,24 @@ module.exports = async (ctx) => {
   let res = null
 
   if (networksIds.length && categoriesIds.length) {
-    res = await db.select(['id', 'title', 'description', 'poster', 'numberOfFollowers', 'networkId', 'userId'])
+    res = await db.select(['id', 'title', 'description', 'poster', 'cpc', 'numberOfFollowers', 'networkId', 'userId'])
     .from('areas')
     .whereIn('networkId', networksIds)
     .intersect(function() {
-      this.select(['id', 'title', 'description', 'poster', 'numberOfFollowers', 'networkId', 'userId'])
+      this.select(['id', 'title', 'description', 'poster','cpc', 'numberOfFollowers', 'networkId', 'userId'])
       .from('areas')
       .whereIn('id', areaIds.map(el=>{return el.areaId}))
     })
   } else if (networksIds.length) {
-    res = await db.select(['id', 'title', 'description', 'poster', 'numberOfFollowers', 'networkId', 'userId'])
+    res = await db.select(['id', 'title', 'description', 'poster','cpc', 'numberOfFollowers', 'networkId', 'userId'])
     .from('areas')
     .whereIn('networkId', networksIds)
   } else if (categoriesIds.length) {
-    res = await db.select(['id', 'title', 'description', 'poster', 'numberOfFollowers', 'networkId', 'userId'])
+    res = await db.select(['id', 'title', 'description', 'poster','cpc', 'numberOfFollowers', 'networkId', 'userId'])
     .from('areas')
     .whereIn('id', areaIds.map(el=>{return el.areaId}))
   } else {
-    res = await db.select(['id', 'title', 'description', 'poster', 'numberOfFollowers', 'networkId', 'userId'])
+    res = await db.select(['id', 'title', 'description', 'poster','cpc', 'numberOfFollowers', 'networkId', 'userId'])
     .from('areas')
   }
   

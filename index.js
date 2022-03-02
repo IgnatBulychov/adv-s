@@ -22,9 +22,15 @@ const createArea = require('./routes/areas/create');
 const updateArea = require('./routes/areas/update');
 const deleteArea = require('./routes/areas/delete');
 
+const createOffer = require('./routes/offers/create');
+const getMyOffers  = require('./routes/offers/getMyOffers');
+const getOthersOffers  = require('./routes/offers/getOthersOffers');
+
+/*
 const createService = require('./routes/services/create');
 const updateService = require('./routes/services/update');
 const deleteService = require('./routes/services/delete');
+*/
 
 const getNetworks = require('./routes/networks/get');
 const getCategories = require('./routes/categories/get');
@@ -45,9 +51,16 @@ router.post('/areas', authenticated, bodyParser(), createArea);
 router.put('/areas/:areaId', authenticated, authorizateArea, updateArea);
 router.delete('/areas/:areaId', authenticated, authorizateArea, deleteArea);
 
+
+router.get('/offers/my', authenticated, bodyParser(), getMyOffers);
+router.get('/offers/others', authenticated, bodyParser(), getOthersOffers);
+router.post('/offer', authenticated, bodyParser(), createOffer);
+
+/*
 router.post('/areas/:areaId/services', authenticated, bodyParser(), createService);
 router.put('/areas/:areaId/:serviceId', authenticated, authorizateArea, updateService);
 router.delete('/areas/:areaId/:serviceId', authenticated, authorizateArea, deleteService);
+*/
 
 router.get('/networks', getNetworks);
 router.get('/categories', getCategories);

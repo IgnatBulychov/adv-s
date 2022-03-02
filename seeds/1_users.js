@@ -19,14 +19,14 @@ exports.seed = function(knex, Promise) {
         },
         {
           id: 'test2',
-          email: 'test2',
+          email: 'test2@test2.ru',
           about: 'test2',
           firstName: 'test2',
           lastName: 'test2',
           avatar: '/storage/tests/2.jpg',
           isSeller: 1,
           isBuyer: 0,
-          passwordHash: 1200,
+          passwordHash: '$2a$10$MAYUb6ze8nFaNs6Pl.XFJuwGnHjYyK4dTI.nhHl/HE7eHC3XKwv9y',
         },
       ]);
     });
