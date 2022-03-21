@@ -17,6 +17,11 @@ module.exports = async (ctx) => {
 
   if (areas.some(area => area.id == areaId)) ctx.throw(422, 'Вы не можете создать заказ, так как Вы являетесь владельцем площадки');  
 
+  let area = await db.select(['id', 'userId'])
+  .from('areas')
+  .where({ id: areaId })
+  .first()
+
   let id = getId()
 
   if (image) {

@@ -16,7 +16,8 @@ const getProfile = require('./routes/profile/get');
 const updateProfile = require('./routes/profile/edit');
 const changeAvatar = require('./routes/profile/changeAvatar');
 
-const getAreas = require('./routes/areas/get');
+const getAreas = require('./routes/areas/getAreas');
+const getArea = require('./routes/areas/getArea');
 const findAreas = require('./routes/areas/find');
 const createArea = require('./routes/areas/create');
 const updateArea = require('./routes/areas/update');
@@ -34,6 +35,8 @@ const deleteService = require('./routes/services/delete');
 
 const getNetworks = require('./routes/networks/get');
 const getCategories = require('./routes/categories/get');
+const getOffer = require('./routes/offers/getOffer');
+const setStatus = require('./routes/offers/setStatus');
 
 const app = new Koa();
 const router = new Router();
@@ -47,6 +50,7 @@ router.put('/profile/change-avatar', authenticated, changeAvatar);
 
 router.get('/areas', authenticated, getAreas);
 router.get('/areas/search', findAreas);
+router.get('/areas/:areaId', getArea);
 router.post('/areas', authenticated, bodyParser(), createArea);
 router.put('/areas/:areaId', authenticated, authorizateArea, updateArea);
 router.delete('/areas/:areaId', authenticated, authorizateArea, deleteArea);
@@ -55,6 +59,10 @@ router.delete('/areas/:areaId', authenticated, authorizateArea, deleteArea);
 router.get('/offers/my', authenticated, bodyParser(), getMyOffers);
 router.get('/offers/others', authenticated, bodyParser(), getOthersOffers);
 router.post('/offer', authenticated, bodyParser(), createOffer);
+
+router.get('/offer/:offerId', authenticated, bodyParser(), getOffer);
+router.put('/offer/:offerId', authenticated, bodyParser(), setStatus);
+
 
 /*
 router.post('/areas/:areaId/services', authenticated, bodyParser(), createService);
