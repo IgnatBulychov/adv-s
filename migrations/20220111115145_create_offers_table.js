@@ -5,6 +5,7 @@ exports.up = function(knex) {
       table.string('id').notNullable().primary();    
       table.string('areaId', 32).notNullable();
       table.string('buyerId', 32).notNullable();
+      table.string('sellerId', 32).notNullable();
       table.string('status', 256).notNullable();
       //table.string('serviceId', 32).notNullable();
       table.bigint('quantity', 15).notNullable();      

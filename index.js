@@ -7,6 +7,7 @@ var serve = require('koa-static');
 const errorHandler = require('./middleware/errorHandler');
 const authenticated = require('./middleware/authenticated');
 const authorizateArea = require('./middleware/authorizateArea');
+const authorizateOffer = require('./middleware/authorizateOffer');
 // const authorizateService = require('./middleware/authorizateArea');
 
 const login = require('./routes/auth/login');
@@ -35,8 +36,14 @@ const deleteService = require('./routes/services/delete');
 
 const getNetworks = require('./routes/networks/get');
 const getCategories = require('./routes/categories/get');
+
 const getOffer = require('./routes/offers/getOffer');
 const setStatus = require('./routes/offers/setStatus');
+
+const createOfferMessage = require('./routes/offerMessages/create');
+const setViewedOfferMessage = require('./routes/offerMessages/setViewed');
+const getOfferMessages = require('./routes/offerMessages/getMessages');
+
 
 const app = new Koa();
 const router = new Router();
@@ -55,14 +62,16 @@ router.post('/areas', authenticated, bodyParser(), createArea);
 router.put('/areas/:areaId', authenticated, authorizateArea, updateArea);
 router.delete('/areas/:areaId', authenticated, authorizateArea, deleteArea);
 
-
 router.get('/offers/my', authenticated, bodyParser(), getMyOffers);
 router.get('/offers/others', authenticated, bodyParser(), getOthersOffers);
 router.post('/offer', authenticated, bodyParser(), createOffer);
 
-router.get('/offer/:offerId', authenticated, bodyParser(), getOffer);
+router.get('/offer/:offerId', authenticated, authorizateOffer, bodyParser(), getOffer);
 router.put('/offer/:offerId', authenticated, bodyParser(), setStatus);
 
+router.post('/offer/messages/:offerId', authenticated, authorizateOffer, bodyParser(), createOfferMessage);
+router.put('/offer/messages/:offerId/:messageId', authenticated, authorizateOffer, bodyParser(), setViewedOfferMessage);
+router.get('/offer/messages/:offerId', authenticated, authorizateOffer, bodyParser(), getOfferMessages);
 
 /*
 router.post('/areas/:areaId/services', authenticated, bodyParser(), createService);

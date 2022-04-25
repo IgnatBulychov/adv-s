@@ -10,6 +10,8 @@ exports.up = function(knex) {
       table.string('avatar', 1024);
       table.bool('isSeller', 255);
       table.bool('isBuyer', 255);
+      table.string('isPremium', 1024);
+      table.string('clicksReserve', 1024);
       table.string('passwordHash', 255).notNullable();
       table.timestamp('createdAt').defaultTo(knex.fn.now());
       table.timestamp('updatedAt').defaultTo(knex.fn.now());

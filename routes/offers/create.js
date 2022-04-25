@@ -39,6 +39,7 @@ module.exports = async (ctx) => {
     link: link,
     image: image ? `/storage/offers/images/${id}.png` : null,
     buyerId: ctx.request.jwtPayload.data.sub,
+    sellerId: area.userId,
     status: 'created'
   }
 

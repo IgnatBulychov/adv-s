@@ -31,6 +31,7 @@ module.exports = async (ctx) => {
     paid
     paymentСonfirmed
     placed
+    placedСonfirmed
     completed
 
     canceledBySeller
@@ -52,7 +53,9 @@ module.exports = async (ctx) => {
     allow = true  
   } else if (offer.status == 'paymentСonfirmed' && status == 'placed' && seller.id == ctx.request.jwtPayload.data.sub) {
     allow = true  
-  } else if (offer.status == 'placed' && status == 'completed' && buyer.id == ctx.request.jwtPayload.data.sub) {
+  } else if (offer.status == 'placed' && status == 'placedСonfirmed' && buyer.id == ctx.request.jwtPayload.data.sub) {
+    allow = true  
+  } else if (offer.status == 'placedСonfirmed' && status == 'completed' && buyer.id == ctx.request.jwtPayload.data.sub) {
     allow = true  
   } else if (status == 'canceledBySeller' && seller.id == ctx.request.jwtPayload.data.sub) {
     if (offer.status ==  'canceledByBuyer') {

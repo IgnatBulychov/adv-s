@@ -24,6 +24,8 @@ module.exports = async (ctx) => {
     avatar: avatar,
     isSeller: isSeller,
     isBuyer: isBuyer,
+    isPremium: false,
+    clicksReserve: 1000,
     passwordHash: passwordHash
   })
   
