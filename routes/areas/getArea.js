@@ -6,7 +6,7 @@ module.exports = async (ctx) => {
 
   let areaId = ctx.params.areaId
   
-  let area = await db.select(['id', 'title', 'description', 'poster', 'numberOfFollowers', 'networkId', 'userId','cpc'])
+  let area = await db.select(['id', 'title', 'description', 'poster', 'numberOfFollowers', 'networkId', 'userId','cpc', 'url'])
   .from('areas')
   .where({ id: areaId })
   .first()
