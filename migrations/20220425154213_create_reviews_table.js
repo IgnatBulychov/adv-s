@@ -1,9 +1,11 @@
 
 exports.up = function(knex) {
   return knex.schema
-  .createTable('stars', function (table) {
+  .createTable('reviews', function (table) {
     table.string('id').notNullable().primary();
     table.string('authorId', 255).notNullable();
+    table.string('review', 4096);   
+    table.bigint('stars', 2);    
     table.string('offerId', 255).notNullable()
       .references('offers.id') // ...which references Article PK.
       .onDelete('CASCADE');
@@ -14,5 +16,5 @@ exports.up = function(knex) {
 
 exports.down = function(knex) {
   return knex.schema
-  .dropTable("stars");
+  .dropTable("reviews");
 };

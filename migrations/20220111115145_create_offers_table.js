@@ -12,8 +12,7 @@ exports.up = function(knex) {
       table.string('title', 1024).notNullable();
       table.string('image', 1024);
       table.string('text', 4048).notNullable();
-      table.string('link', 2048).notNullable();      
-      table.string('comment', 2048);
+      table.string('link', 2048).notNullable();
       table.timestamp('createdAt').defaultTo(knex.fn.now());
       table.timestamp('updatedAt').defaultTo(knex.fn.now());
     })

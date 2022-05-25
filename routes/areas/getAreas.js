@@ -40,6 +40,31 @@ module.exports = async (ctx) => {
    
     value.categories = categories
 
+
+    /* locations */
+
+    let resLocationsPivot = await db.select(['locationId'])
+    .from('area_location')
+    .where({ areaId: value.id })
+
+    let locations = []
+
+    for (const pivot of resLocationsPivot) {
+      let location = await db.select(['locality', 'fiasCode'])
+      .from('locations')
+      .where({ id: pivot.locationId })
+      .first()
+
+      locations.push({
+        fiasCode: location.fiasCode,
+        locality: location.locality
+      })
+    }
+  
+    value.locations = locations
+
+    /** */
+
    /* let resServices = await db.select(['id', 'title', 'description', 'price'])
     .from('services')
     .where({ areaId: value.id })

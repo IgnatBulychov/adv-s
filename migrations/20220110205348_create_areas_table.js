@@ -9,6 +9,7 @@ exports.up = function(knex) {
       table.bigint('numberOfFollowers', 15);
       table.bigint('cpc', 15);      
       table.string('networkId', 32).notNullable();
+      table.string('locationId', 32);
       table.string('userId', 32).notNullable();
       table.timestamp('createdAt').defaultTo(knex.fn.now());
       table.timestamp('updatedAt').defaultTo(knex.fn.now());

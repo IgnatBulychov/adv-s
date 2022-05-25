@@ -3,7 +3,7 @@ const fs = require('fs');
 const getId = require('../../utilities/getId');
 
 module.exports = async (ctx) => {
-  const { title, description, networkId, poster, categories, numberOfFollowers, cpc  } = ctx.request.body; //services
+  const { title, description, networkId, poster, categories, locations, numberOfFollowers, cpc  } = ctx.request.body; //services
 
   if (!title) ctx.throw(422, 'Area title required');
   if (!networkId) ctx.throw(422, 'networkId required');
@@ -16,6 +16,22 @@ module.exports = async (ctx) => {
     });
   }
 
+  let promises = []
+
+  locations.forEach((locality) => {
+    promises.push(
+      db('locations').insert({
+        id: getId(),
+        locality: locality.locality,
+        fiasCode: locality.fiasCode
+      })
+      .onConflict('fiasCode')
+      .ignore()
+    )
+  })
+
+  await Promise.all(promises)
+  
   let area = {
     id: areaId,
     title: title,
@@ -39,12 +55,23 @@ module.exports = async (ctx) => {
     })
   }
 */
-  console.log(categories)
 
   for (const category of categories) {
     await db('category_area').insert({
       id: getId(),
       categoryId: category,
+      areaId: areaId
+    })
+  }
+
+  let locationsFromBase = await db.select(['id'])
+  .from('locations')
+  .whereIn('fiasCode', locations.map(locality=>locality.fiasCode))
+
+  for (const locality of locationsFromBase) {
+    await db('area_location').insert({
+      id: getId(),
+      locationId: locality.id,
       areaId: areaId
     })
   }
