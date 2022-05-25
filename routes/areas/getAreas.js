@@ -2,7 +2,7 @@ const db = require('../../db/db');
 
 module.exports = async (ctx) => {
   
-  let areas = await db.select(['id', 'title', 'description', 'poster', 'numberOfFollowers', 'networkId', 'cpc'])
+  let areas = await db.select(['id', 'title', 'description', 'poster', 'numberOfFollowers', 'networkId', 'cpc', 'url'])
   .from('areas')
   .where({ userId: ctx.request.jwtPayload.data.sub })
   

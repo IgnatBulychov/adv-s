@@ -3,7 +3,7 @@ const fs = require('fs');
 const getId = require('../../utilities/getId');
 
 module.exports = async (ctx) => {
-  const { title, description, networkId, poster, categories, locations, numberOfFollowers, cpc  } = ctx.request.body; //services
+  const { title, description, networkId, poster, url, categories, locations, numberOfFollowers, cpc  } = ctx.request.body; //services
 
   if (!title) ctx.throw(422, 'Area title required');
   if (!networkId) ctx.throw(422, 'networkId required');
@@ -39,6 +39,7 @@ module.exports = async (ctx) => {
     poster: poster ? `/storage/areas/avatars/${areaId}.png` : null,
     numberOfFollowers: numberOfFollowers ? numberOfFollowers : null,
     cpc: cpc,
+    url: url,
     networkId: networkId,
     userId:  ctx.request.jwtPayload.data.sub
   }

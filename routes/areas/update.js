@@ -4,7 +4,7 @@ const fs = require('fs');
 const getId = require('../../utilities/getId');
 
 module.exports = async (ctx) => {
-  const { title, description, networkId, poster, numberOfFollowers, isPosterChanges, locations, cpc, categories } = ctx.request.body;
+  const { title, description, networkId, poster, numberOfFollowers, url, isPosterChanges, locations, cpc, categories } = ctx.request.body;
 
   if (!title) ctx.throw(422, 'Area title required');
   if (!networkId) ctx.throw(422, 'networkId required');
@@ -40,6 +40,7 @@ module.exports = async (ctx) => {
     description: description,
     numberOfFollowers: numberOfFollowers ? numberOfFollowers : null,
     networkId: networkId,
+    url: url,
     cpc: cpc
   }
 
