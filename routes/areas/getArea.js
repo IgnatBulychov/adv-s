@@ -50,19 +50,11 @@ module.exports = async (ctx) => {
   .from('area_location')
   .where({ areaId: area.id })
 
-  let locations = []
 
-  for (const pivot of resLocationsPivot) {
-    let location = await db.select(['locality', 'fiasCode'])
-    .from('locations')
-    .where({ id: pivot.locationId })
-    .first()
-
-    locations.push(location)
-  }
+  area.locations = await db.select(['locality', 'fiasCode'])
+  .from('locations')
+  .whereIn('id', resLocationsPivot.map(l=>l.locationId) )
  
-  area.locations = locations
-
   /** */
 
   area.owner = await db.select(['id', 'firstName', 'lastName', 'avatar'])

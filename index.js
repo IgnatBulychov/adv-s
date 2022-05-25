@@ -44,6 +44,7 @@ const createOfferMessage = require('./routes/offerMessages/create');
 const setViewedOfferMessage = require('./routes/offerMessages/setViewed');
 const getOfferMessages = require('./routes/offerMessages/getMessages');
 
+const getLocationsList = require('./routes/locations/getLocationsList');
 
 const app = new Koa();
 const router = new Router();
@@ -81,6 +82,7 @@ router.delete('/areas/:areaId/:serviceId', authenticated, authorizateArea, delet
 
 router.get('/networks', getNetworks);
 router.get('/categories', getCategories);
+router.get('/locations', getLocationsList);
 
 app.use(errorHandler);
 app.use(cors());

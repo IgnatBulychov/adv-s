@@ -4,34 +4,90 @@ module.exports = async (ctx) => {
 
   let networksIds = ctx.query.networksIds ? ctx.query.networksIds.split(',') : []
   let categoriesIds = ctx.query.categoriesIds ? ctx.query.categoriesIds.split(',') : []
+  let locationsIds = ctx.query.locationsIds ? ctx.query.locationsIds.split(',') : []
 
-  let areaIds = await db.select(['areaId'])
+
+  let areaIdsCategoriesPivot = await db.select(['areaId'])
   .from('category_area')
   .whereIn('categoryId', categoriesIds)
 
+  let areaIdsLocationsPivot = await db.select(['areaId'])
+  .from('area_location')
+  .whereIn('locationId', locationsIds)
 
 
-  console.log(areaIds.map(el=>{return el.areaId}))
+
 
   let res = null
 
-  if (networksIds.length && categoriesIds.length) {
+  // 1 networksIds categoriesIds locationsIds
+  if (networksIds.length && categoriesIds.length && locationsIds.length) {
     res = await db.select(['id', 'title', 'description', 'poster', 'cpc', 'numberOfFollowers', 'networkId', 'userId'])
     .from('areas')
     .whereIn('networkId', networksIds)
     .intersect(function() {
       this.select(['id', 'title', 'description', 'poster','cpc', 'numberOfFollowers', 'networkId', 'userId'])
       .from('areas')
-      .whereIn('id', areaIds.map(el=>{return el.areaId}))
+      .whereIn('id', areaIdsCategoriesPivot.map(el=>{return el.areaId}))
+      .intersect(function() {
+        this.select(['id', 'title', 'description', 'poster','cpc', 'numberOfFollowers', 'networkId', 'userId'])
+        .from('areas')
+        .whereIn('id', areaIdsLocationsPivot.map(el=>{return el.areaId}))
+      })
     })
-  } else if (networksIds.length) {
+
+  // 2  networksIds categoriesIds
+  } else if (networksIds.length && categoriesIds.length) {
+    res = await db.select(['id', 'title', 'description', 'poster', 'cpc', 'numberOfFollowers', 'networkId', 'userId'])
+    .from('areas')
+    .whereIn('networkId', networksIds)
+    .intersect(function() {
+      this.select(['id', 'title', 'description', 'poster','cpc', 'numberOfFollowers', 'networkId', 'userId'])
+      .from('areas')
+      .whereIn('id', areaIdsCategoriesPivot.map(el=>{return el.areaId}))
+    })
+  
+  // 3 categoriesIds locationsIds
+  } else if (categoriesIds.length && locationsIds.length) {
+    res = await db.select(['id', 'title', 'description', 'poster', 'cpc', 'numberOfFollowers', 'networkId', 'userId'])
+    .from('areas')
+    .whereIn('id', areaIdsCategoriesPivot.map(el=>{return el.areaId}))
+    .intersect(function() {
+      this.select(['id', 'title', 'description', 'poster','cpc', 'numberOfFollowers', 'networkId', 'userId'])
+      .from('areas')
+      .whereIn('id', areaIdsLocationsPivot.map(el=>{return el.areaId}))
+    })
+
+   // 4 networksIds locationsIds
+  } else if (categoriesIds.length && locationsIds.length) {
+    res = await db.select(['id', 'title', 'description', 'poster', 'cpc', 'numberOfFollowers', 'networkId', 'userId'])
+    .from('areas')
+    .whereIn('networkId', networksIds)
+    .intersect(function() {
+      this.select(['id', 'title', 'description', 'poster','cpc', 'numberOfFollowers', 'networkId', 'userId'])
+      .from('areas')
+      .whereIn('id', areaIdsLocationsPivot.map(el=>{return el.areaId}))
+    })
+
+   // 5 networksIds
+  }  else if (networksIds.length) {
     res = await db.select(['id', 'title', 'description', 'poster','cpc', 'numberOfFollowers', 'networkId', 'userId'])
     .from('areas')
     .whereIn('networkId', networksIds)
+  // 6 categoriesIds
   } else if (categoriesIds.length) {
     res = await db.select(['id', 'title', 'description', 'poster','cpc', 'numberOfFollowers', 'networkId', 'userId'])
     .from('areas')
-    .whereIn('id', areaIds.map(el=>{return el.areaId}))
+    .whereIn('id', areaIdsCategoriesPivot.map(el=>{return el.areaId}))
+ 
+   // 7 locationsIds
+  } else if (locationsIds.length) {
+    res = await db.select(['id', 'title', 'description', 'poster','cpc', 'numberOfFollowers', 'networkId', 'userId'])
+    .from('areas')
+    .whereIn('id', areaIdsLocationsPivot.map(el=>{return el.areaId}))
+ 
+ 
+   // 8 noone
   } else {
     res = await db.select(['id', 'title', 'description', 'poster','cpc', 'numberOfFollowers', 'networkId', 'userId'])
     .from('areas')
