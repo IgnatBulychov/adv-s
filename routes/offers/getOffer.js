@@ -6,6 +6,8 @@ module.exports = async (ctx) => {
 
   ctx.offer.area.cpc = Number(ctx.offer.area.cpc)
 
+  ctx.offer.image = 'http://' + ctx.request.header.host + ctx.offer.image
+
   ctx.offer.buyer.avatar = 'http://' + ctx.request.header.host + ctx.offer.buyer.avatar
 
   ctx.offer.seller.avatar = 'http://' + ctx.request.header.host + ctx.offer.seller.avatar

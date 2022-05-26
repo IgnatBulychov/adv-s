@@ -1,8 +1,9 @@
 const db = require('../../db/db');
 const getId = require('../../utilities/getId');
+const fs = require('fs');
 
 module.exports = async (ctx) => {
-  const { quantity, title, link, text, image, comment, areaId } = ctx.request.body; //services
+  const { quantity, title, link, text, image, areaId } = ctx.request.body; //services
 
   if (!quantity) ctx.throw(422, 'quantity required');
   if (!title) ctx.throw(422, 'title required');  
@@ -32,7 +33,6 @@ module.exports = async (ctx) => {
   let offer = {
     id: getId(),
     quantity: quantity,
-    comment: comment ? comment : null,
     areaId: areaId,
     title: title,
     text: text,

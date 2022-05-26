@@ -5,7 +5,7 @@ module.exports = async (ctx, next) => {
 
   if (!ctx.params.offerId) ctx.throw(422, 'offerId required');
 
-  let offer = await db.select(['id', 'title', 'text', 'buyerId', 'image', 'status', 'areaId', 'quantity', 'createdAt'])
+  let offer = await db.select(['id', 'title', 'text', 'buyerId', 'image', 'status', 'areaId', 'quantity', 'link','createdAt'])
   .from('offers')
   .where({ id: ctx.params.offerId })
   .first()
