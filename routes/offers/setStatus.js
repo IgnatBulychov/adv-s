@@ -3,7 +3,7 @@ const db = require('../../db/db');
 module.exports = async (ctx) => {
 
   if (!ctx.params.offerId) ctx.throw(422, 'offerId required');
-  const { status } = ctx.request.body;
+  let { status } = ctx.request.body;
 
   let offer = await db.select(['buyerId', 'areaId', 'status'])
   .from('offers')
@@ -58,17 +58,19 @@ module.exports = async (ctx) => {
   } else if (offer.status == 'placedСonfirmed' && status == 'completed' && buyer.id == ctx.request.jwtPayload.data.sub) {
     allow = true  
   } else if (status == 'canceledBySeller' && seller.id == ctx.request.jwtPayload.data.sub) {
-    if (offer.status ==  'canceledByBuyer') {
+    /*if (offer.status ==  'canceledByBuyer' || offer.status == 'created') {
       status = 'canceled'
-    }
-    allow = true  
-  } else if (status == 'canceledByBuyer' && offer.id == ctx.request.jwtPayload.data.sub) {
-    if (offer.status ==  'canceledBySeller') {
+    }*/
+    status = 'canceledBySeller'
+    allow = true
+  } else if (status == 'canceledByBuyer' && buyer.id == ctx.request.jwtPayload.data.sub) {
+    /*if (offer.status ==  'canceledBySeller' || offer.status == 'created' || offer.status == 'accepted') {
       status = 'canceled'
-    }
-    allow = true  
+    }*/
+    status = 'canceledByBuyer'
+    allow = true
   }
-
+  
   if (allow) {
     await db('offers')
     .where({ id: ctx.params.offerId })
@@ -77,5 +79,5 @@ module.exports = async (ctx) => {
     ctx.throw(422, 'access denided')
   }
 
-  ctx.body = offer
+  ctx.body = status
 };
