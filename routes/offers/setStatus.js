@@ -1,5 +1,7 @@
 const db = require('../../db/db');
 
+const Event = require('../offerEvents/offerEvents');
+
 module.exports = async (ctx) => {
 
   if (!ctx.params.offerId) ctx.throw(422, 'offerId required');
@@ -78,6 +80,14 @@ module.exports = async (ctx) => {
   } else {
     ctx.throw(422, 'access denided')
   }
+
+  new Event({
+    status: status,
+    userId: ctx.request.jwtPayload.data.sub,
+    offerId: ctx.params.offerId,
+  }).save()
+
+
 
   ctx.body = status
 };
