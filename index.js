@@ -46,6 +46,13 @@ const getOfferMessages = require('./routes/offerMessages/getMessages');
 
 const getLocationsList = require('./routes/locations/getLocationsList');
 
+const getReviews = require('./routes/reviews/getReviews');
+const addReview = require('./routes/reviews/addReview');
+const updateReview = require('./routes/reviews/updateReview');
+
+
+/** app */
+
 const app = new Koa();
 const router = new Router();
 
@@ -73,6 +80,10 @@ router.put('/offer/:offerId', authenticated, bodyParser(), setStatus);
 router.post('/offer/messages/:offerId', authenticated, authorizateOffer, bodyParser(), createOfferMessage);
 router.put('/offer/messages/:offerId/:messageId', authenticated, authorizateOffer, bodyParser(), setViewedOfferMessage);
 router.get('/offer/messages/:offerId', authenticated, authorizateOffer, bodyParser(), getOfferMessages);
+
+router.get('/reviews/:offerId', authenticated, authorizateOffer, bodyParser(), getReviews);
+router.post('/reviews/:offerId', authenticated, authorizateOffer, bodyParser(), addReview);
+router.put('/reviews/:reviewId', authenticated, bodyParser(), updateReview);
 
 /*
 router.post('/areas/:areaId/services', authenticated, bodyParser(), createService);
