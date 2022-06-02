@@ -1,5 +1,6 @@
 const db = require('../../db/db');
 const getId = require('../../utilities/getId');
+let geoip = require('geoip-lite');
 
 module.exports = async (ctx) => {
 
@@ -20,6 +21,11 @@ module.exports = async (ctx) => {
   .where({ ip: ctx.request.ip })
 
   if (doubles.length) isDouble = true
+
+
+
+  let country = geoip.lookup(ctx.request.ip);
+console.log('!!!!',country)
 
   let click = {
     id: id,

@@ -5,7 +5,7 @@ module.exports = async (ctx) => {
   let { perPage, currentPage } = ctx.request.query;
   
   let [clicks, count] = await Promise.all([    
-    db.select(['id', 'ip', 'createdAt'])
+    db.select(['id', 'ip', 'createdAt', 'isDouble'])
     .from('clicks')
     .where({ offerId: ctx.offer.id })
     .paginate({ perPage: Number(perPage), currentPage: Number(currentPage) })
