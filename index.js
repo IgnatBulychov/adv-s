@@ -50,6 +50,13 @@ const getReviews = require('./routes/reviews/getReviews');
 const addReview = require('./routes/reviews/addReview');
 const updateReview = require('./routes/reviews/updateReview');
 
+const addClick = require('./routes/clicks/addClick');
+const getClicks = require('./routes/clicks/getClicks');
+
+
+
+
+
 
 /** app */
 
@@ -84,6 +91,11 @@ router.get('/offer/messages/:offerId', authenticated, authorizateOffer, bodyPars
 router.get('/reviews/:offerId', authenticated, authorizateOffer, bodyParser(), getReviews);
 router.post('/reviews/:offerId', authenticated, authorizateOffer, bodyParser(), addReview);
 router.put('/reviews/:reviewId', authenticated, bodyParser(), updateReview);
+
+router.post('/clicks/:offerId', bodyParser(), addClick);
+router.get('/clicks/:offerId', authenticated, authorizateOffer, bodyParser(), getClicks);
+
+
 
 /*
 router.post('/areas/:areaId/services', authenticated, bodyParser(), createService);

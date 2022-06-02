@@ -14,5 +14,7 @@ module.exports = async (ctx) => {
 
   ctx.offer.isMine = ctx.request.jwtPayload.data.sub == ctx.offer.buyer.id
 
+  ctx.offer.linkWithTracker = `http://localhost:3000/r?o=${ctx.offer.id}&u=${ctx.offer.link}`
+
   ctx.body = ctx.offer
 };

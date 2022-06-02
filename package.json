@@ -17,6 +17,7 @@
     "bcrypt-nodejs": "0.0.3",
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.95.11",
+    "knex-paginate": "^3.0.1",
     "koa": "^2.13.1",
     "koa-body": "^4.2.0",
     "koa-bodyparser": "^4.3.0",

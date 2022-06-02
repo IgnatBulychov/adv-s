@@ -8,8 +8,8 @@ exports.up = function(knex) {
       table.string('firstName', 255);
       table.string('lastName', 255);
       table.string('avatar', 1024);
-      table.bool('isSeller', 255);
-      table.bool('isBuyer', 255);
+      table.boolean('isSeller');
+      table.boolean('isBuyer');
       table.string('isPremium', 1024);
       table.string('clicksReserve', 1024);
       table.string('passwordHash', 255).notNullable();
