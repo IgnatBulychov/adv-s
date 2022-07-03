@@ -11,9 +11,7 @@ module.exports = async (ctx) => {
     return r
   })
 
-  ctx.body = { 
-    reviews
-  }
+  ctx.body = reviews
 
   // разберись покуаптель или продавец поулчает отзыв
 };
